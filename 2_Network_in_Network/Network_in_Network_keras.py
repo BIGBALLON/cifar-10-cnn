@@ -30,7 +30,7 @@ def color_preprocessing(x_train,x_test):
     return x_train, x_test
 
 def scheduler(epoch):
-  learning_rate_init = 0.1
+  learning_rate_init = 0.08
   if epoch >= 81:
     learning_rate_init = 0.01
   if epoch >= 122:
@@ -56,7 +56,7 @@ def build_model():
   model.add(Activation('relu'))
   model.add(Conv2D(192, (1, 1),padding='same', kernel_regularizer=keras.regularizers.l2(0.0001), kernel_initializer=RandomNormal(stddev = 0.05)))
   model.add(Activation('relu'))
-  model.add(AveragePooling2D(pool_size=(3, 3),strides=(2,2),padding = 'same'))
+  model.add(MaxPooling2D(pool_size=(3, 3),strides=(2,2),padding = 'same'))
   
   model.add(Dropout(dropout))
   
