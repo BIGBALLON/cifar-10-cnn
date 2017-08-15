@@ -15,17 +15,16 @@ epochs        = 164
 iterations    = 391
 num_classes   = 10
 dropout       = 0.5
-log_filepath = r'./nin'
+log_filepath  = './nin'
 
 def color_preprocessing(x_train,x_test):
     x_train = x_train.astype('float32')
     x_test = x_test.astype('float32')
-    x_train[:,:,:,0] = (x_train[:,:,:,0] - np.mean(x_train[:,:,:,0])) / np.std(x_train[:,:,:,0])
-    x_train[:,:,:,1] = (x_train[:,:,:,1] - np.mean(x_train[:,:,:,1])) / np.std(x_train[:,:,:,1])
-    x_train[:,:,:,2] = (x_train[:,:,:,2] - np.mean(x_train[:,:,:,2])) / np.std(x_train[:,:,:,2])
-    x_test[:,:,:,0] = (x_test[:,:,:,0] - np.mean(x_test[:,:,:,0])) / np.std(x_test[:,:,:,0])
-    x_test[:,:,:,1] = (x_test[:,:,:,1] - np.mean(x_test[:,:,:,1])) / np.std(x_test[:,:,:,1])
-    x_test[:,:,:,2] = (x_test[:,:,:,2] - np.mean(x_test[:,:,:,2])) / np.std(x_test[:,:,:,2])
+    mean = [125.307, 122.95, 113.865]
+    std  = [62.9932, 62.0887, 66.7048]
+    for i in range(3):
+        x_train[:,:,:,i] = (x_train[:,:,:,i] - mean[i]) / std[i]
+        x_test[:,:,:,i] = (x_test[:,:,:,i] - mean[i]) / std[i]
 
     return x_train, x_test
 
@@ -39,7 +38,7 @@ def scheduler(epoch):
 
 def build_model():
   model = Sequential()
-  # Weight initialization
+
   model.add(Conv2D(192, (5, 5), padding='same', kernel_regularizer=keras.regularizers.l2(0.0001), kernel_initializer=RandomNormal(stddev = 0.01), input_shape=x_train.shape[1:]))
   model.add(Activation('relu'))
   model.add(Conv2D(160, (1, 1), padding='same', kernel_regularizer=keras.regularizers.l2(0.0001), kernel_initializer=RandomNormal(stddev = 0.05)))
@@ -70,11 +69,9 @@ def build_model():
   model.add(GlobalAveragePooling2D())
   model.add(Activation('softmax'))
   
-      
   sgd = optimizers.SGD(lr=.1, momentum=0.9, nesterov=True)
   model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
   return model
-
 
 if __name__ == '__main__':
 
@@ -83,12 +80,12 @@ if __name__ == '__main__':
     y_train = keras.utils.to_categorical(y_train, num_classes)
     y_test = keras.utils.to_categorical(y_test, num_classes)
     
-    # color preprocessing
     x_train, x_test = color_preprocessing(x_train, x_test)
 
     # build network
     model = build_model()
     print(model.summary())
+
     # set callback
     tb_cb = TensorBoard(log_dir=log_filepath, histogram_freq=0)
     change_lr = LearningRateScheduler(scheduler)
@@ -96,15 +93,9 @@ if __name__ == '__main__':
 
     # set data augmentation
     print('Using real-time data augmentation.')
-    datagen = ImageDataGenerator(horizontal_flip=True,
-            width_shift_range=0.125,height_shift_range=0.125,fill_mode='constant',cval=0.)
-
+    datagen = ImageDataGenerator(horizontal_flip=True,width_shift_range=0.125,height_shift_range=0.125,fill_mode='constant',cval=0.)
     datagen.fit(x_train)
 
     # start training
-    model.fit_generator(datagen.flow(x_train, y_train,batch_size=batch_size),
-                        steps_per_epoch=iterations,
-                        epochs=epochs,
-                        callbacks=cbks,
-                        validation_data=(x_test, y_test))
+    model.fit_generator(datagen.flow(x_train, y_train,batch_size=batch_size),steps_per_epoch=iterations,epochs=epochs,callbacks=cbks,validation_data=(x_test, y_test))
     model.save('nin.h5')
