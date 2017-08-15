@@ -25,7 +25,7 @@ batch_size   = 128
 epochs       = 170
 iterations   = 391
 dropout      = 0.5
-weight_decay = 0.0015
+weight_decay = 0.0005
 log_filepath = r'./vgg19_retrain_logs/'
 
 def scheduler(epoch):
