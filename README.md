@@ -28,20 +28,23 @@ I just use **Keras** and **Tensorflow** to implementate all of these CNN models.
     -  [Identity Mappings in Deep Residual Networks][6]
 -  **Wide Residual Network**
     -  [Wide Residual Networks][7]
--  **ResNeXt**(TODO)
+-  **ResNeXt**  
     -  [Aggregated Residual Transformations for Deep Neural Networks][8]
 -  **DenseNet**(TODO)
     -  [Densely Connected Convolutional Networks][9]
 
 ## Accuracy of all my implementations
 
-| network            | dropout | preprocess | GPU       | epochs  | training time | accuracy(%) |
-|:------------------:|:-------:|:----------:|:---------:|:-------:|:-------------:|:-----------:|
-| Lecun-Network      |    -    |   meanstd  | GTX980TI  | 180     |    30 min     |    76.27    |
-| Network-in-Network |   0.5   |   meanstd  | GTX1060   | 164     |    1 h 30 min |    91.15    |
-| Vgg19-Network      |   0.5   |   meanstd  | GTX980TI  | 164     |    4 hours    |    93.43    |
-| Residual-Network50 |    -    |   meanstd  | GTX980TI  | 200     |    8 h 58 min |    94.10    |
-| Wide-resnet 16x8   |    -    |   meanstd  | GTX1060   | 200     |  11 h 32 min  |    95.14    |
+| network               | dropout | preprocess | GPU       | params  | training time | accuracy(%) |
+|:----------------------|:-------:|:----------:|:---------:|:-------:|:-------------:|:-----------:|
+| Lecun-Network         |    -    |   meanstd  | GTX980TI  | 62k     |    30 min     |    76.27    |
+| Network-in-Network    |   0.5   |   meanstd  | GTX1060   | 0.96M   |    1 h 30 min |    91.25    |
+| Network-in-Network_bn |   0.5   |   meanstd  | GTX980TI  | 0.97M   |    2 h 20 min |    91.75    |
+| Vgg19-Network         |   0.5   |   meanstd  | GTX980TI  | 45M     |    4 hours    |    93.53    |
+| Residual-Network50    |    -    |   meanstd  | GTX980TI  | 1.7M    |    8 h 58 min |    94.10    |
+| Wide-resnet 16x8      |    -    |   meanstd  | GTX1060   | 11.3M   |  11 h 32 min  |    95.14    |
+| ResNeXt-41x16         |    -    |   meanstd  | GTX1060   | -       |       -       |      -      |
+| ResNeXt-41x8          |    -    |   meanstd  | GTX1060   | -       |       -       |      -      |
 
 
   [1]: ./images/cf10.png
