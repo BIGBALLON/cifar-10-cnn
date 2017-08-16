@@ -43,8 +43,8 @@ I just use **Keras** and **Tensorflow** to implementate all of these CNN models.
 | Vgg19-Network         |   0.5   |   meanstd  | GTX980TI  | 45M     |    4 hours    |    93.53    |
 | Residual-Network50    |    -    |   meanstd  | GTX980TI  | 1.7M    |    8 h 58 min |    94.10    |
 | Wide-resnet 16x8      |    -    |   meanstd  | GTX1060   | 11.3M   |  11 h 32 min  |    95.14    |
-| ResNeXt-41x16         |    -    |   meanstd  | GTX1060   | -       |       -       |      -      |
-| ResNeXt-41x8          |    -    |   meanstd  | GTX1060   | -       |       -       |      -      |
+| ResNeXt-29x8          |    -    |   meanstd  | GTX1060   | 2.1M    |       -       |      -      |
+| ResNeXt-29x16         |    -    |   meanstd  | GTX980TI  | 1.98M   |       -       |      -      |
 
 
   [1]: ./images/cf10.png
