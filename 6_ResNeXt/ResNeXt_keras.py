@@ -7,12 +7,12 @@ from keras.layers.normalization import BatchNormalization
 from keras.layers import Conv2D, Dense, Input, add, Activation, GlobalAveragePooling2D
 from keras.layers import Lambda, concatenate
 from keras.initializers import he_normal
-from keras.callbacks import LearningRateScheduler, TensorBoard
+from keras.callbacks import LearningRateScheduler, TensorBoard, ModelCheckpoint
 from keras.models import Model
 from keras import optimizers
 from keras import regularizers
 
-cardinality        = 8
+cardinality        = 8          # 4 or 8 or 16 or 32
 base_width         = 64
 inplanes           = 64
 expansion          = 4
@@ -20,17 +20,20 @@ expansion          = 4
 img_rows, img_cols = 32, 32
 img_channels       = 3
 num_classes        = 10
-batch_size         = 128
-epochs             = 200
-iterations         = 391
-weight_decay       = 0.0002
+batch_size         = 128         # 64 or 32 or other
+epochs             = 275
+iterations         = 391         
+weight_decay       = 0.0005
 
 mean = [125.307, 122.95, 113.865]
 std  = [62.9932, 62.0887, 66.7048]
-lr   = [0.1, 0.02, 0.004, 0.0008]
 
 def scheduler(epoch):
-    return lr[epoch // 55]
+    if epoch <= 100:
+        return 0.05
+    if epoch <= 180:
+        return 0.005
+    return 0.0005
 
 def resnext(img_input,classes_num):
     global inplanes
@@ -100,9 +103,9 @@ if __name__ == '__main__':
     # load data
     (x_train, y_train), (x_test, y_test) = cifar10.load_data()
     y_train = keras.utils.to_categorical(y_train, num_classes)
-    y_test = keras.utils.to_categorical(y_test, num_classes)
+    y_test  = keras.utils.to_categorical(y_test, num_classes)
     x_train = x_train.astype('float32')
-    x_test = x_test.astype('float32')
+    x_test  = x_test.astype('float32')
     
     # - mean / std
     for i in range(3):
@@ -111,8 +114,8 @@ if __name__ == '__main__':
 
     # build network
     img_input = Input(shape=(img_rows,img_cols,img_channels))
-    output = resnext(img_input,num_classes)
-    resnet = Model(img_input, output)
+    output    = resnext(img_input,num_classes)
+    resnet    = Model(img_input, output)
     print(resnet.summary())
 
     # set optimizer
@@ -120,13 +123,14 @@ if __name__ == '__main__':
     resnet.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
 
     # set callback
-    tb_cb = TensorBoard(log_dir='./resnext/', histogram_freq=0)
+    tb_cb     = TensorBoard(log_dir='./resnext/', histogram_freq=0)
     change_lr = LearningRateScheduler(scheduler)
-    cbks = [change_lr,tb_cb]
+    ckpt      = ModelCheckpoint('./ckpt.h5', save_best_only=False, mode='auto', period=10)
+    cbks      = [change_lr,tb_cb,ckpt]
 
     # set data augmentation
     print('Using real-time data augmentation.')
-    datagen = ImageDataGenerator(horizontal_flip=True,width_shift_range=0.125,height_shift_range=0.125,fill_mode='constant',cval=0.)
+    datagen   = ImageDataGenerator(horizontal_flip=True,width_shift_range=0.125,height_shift_range=0.125,fill_mode='constant',cval=0.)
 
     datagen.fit(x_train)
 
