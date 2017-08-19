@@ -30,10 +30,10 @@ std  = [62.9932, 62.0887, 66.7048]
 
 def scheduler(epoch):
     if epoch <= 100:
-        return 0.1
+       return 0.1
     if epoch <= 180:
-        return 0.01
-    return 0.001
+       return 0.01
+    return 0.0005
 
 def densenet(img_input,classes_num):
 
@@ -108,6 +108,7 @@ if __name__ == '__main__':
     img_input = Input(shape=(img_rows,img_cols,img_channels))
     output    = densenet(img_input,num_classes)
     model     = Model(img_input, output)
+    # model.load_weights('ckpt.h5')
     print(model.summary())
 
     # set optimizer

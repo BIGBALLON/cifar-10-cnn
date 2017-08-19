@@ -30,7 +30,7 @@ I just use **Keras** and **Tensorflow** to implementate all of these CNN models.
     -  [Wide Residual Networks][7]
 -  **ResNeXt**  
     -  [Aggregated Residual Transformations for Deep Neural Networks][8]
--  **DenseNet**(TODO)
+-  **DenseNet**
     -  [Densely Connected Convolutional Networks][9]
 
 ## Accuracy of all my implementations
@@ -44,7 +44,13 @@ I just use **Keras** and **Tensorflow** to implementate all of these CNN models.
 | Residual-Network50    |    -    |   meanstd  | GTX980TI  | 1.7M    |    8 h 58 min |    94.10    |
 | Wide-resnet 16x8      |    -    |   meanstd  | GTX1060   | 11.3M   |  11 h 32 min  |    95.14    |
 | ResNeXt-4x64d         |    -    |   meanstd  | GTX1080TI | 20M     |  22 h 50 min  |    95.51    |
-| ResNeXt-16x64d        |    -    |   meanstd  | GTX1080TI | 37M     |       -       |      -      |
+| DenseNet-100x12       |    -    |   meanstd  | GTX980TI  | 0.85M   |  30 h 40 min  |    95.15    |
+
+## About ResNeXt & DenseNet
+
+Because I don't have enough machines to train the larger networks.    
+So I only trained the smallest network described in the paper.  
+You can see the results in [liuzhuang13/DenseNet][10] and [prlz77/ResNeXt.pytorch][11]
 
 
   [1]: ./images/cf10.png
@@ -56,3 +62,5 @@ I just use **Keras** and **Tensorflow** to implementate all of these CNN models.
   [7]: https://arxiv.org/abs/1605.07146
   [8]: https://arxiv.org/abs/1611.05431
   [9]: https://arxiv.org/abs/1608.06993
+  [10]: https://github.com/liuzhuang13/DenseNet
+  [11]: https://github.com/prlz77/ResNeXt.pytorch
