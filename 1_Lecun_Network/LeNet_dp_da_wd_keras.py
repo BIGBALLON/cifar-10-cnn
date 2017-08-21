@@ -9,10 +9,14 @@ from keras.preprocessing.image import ImageDataGenerator
 from keras.regularizers import l2
 
 batch_size    = 128
-epochs        = 180
+epochs        = 150
 iterations    = 391
 num_classes   = 10
 weight_decay  = 0.0001
+mean          = [125.307, 122.95, 113.865]
+std           = [62.9932, 62.0887, 66.7048]
+lr            = [0.02, 0.004, 0.0008]
+
 log_filepath  = './lenet_dp_da_wd'
 
 def build_model():
@@ -30,14 +34,7 @@ def build_model():
     return model
 
 def scheduler(epoch):
-    learning_rate_init = 0.02
-    if epoch >= 60:
-        learning_rate_init = 0.01
-    if epoch >= 120:
-        learning_rate_init = 0.004
-    if epoch >= 160:    
-        learning_rate_init = 0.0008
-    return learning_rate_init
+    return lr[epoch//50]
 
 if __name__ == '__main__':
 
@@ -49,18 +46,14 @@ if __name__ == '__main__':
     x_test = x_test.astype('float32')
     
     # data preprocessing  [raw - mean / std]
-
-    x_train[:,:,:,0] = (x_train[:,:,:,0] - np.mean(x_train[:,:,:,0])) / np.std(x_train[:,:,:,0])
-    x_train[:,:,:,1] = (x_train[:,:,:,1] - np.mean(x_train[:,:,:,1])) / np.std(x_train[:,:,:,1])
-    x_train[:,:,:,2] = (x_train[:,:,:,2] - np.mean(x_train[:,:,:,2])) / np.std(x_train[:,:,:,2])
-
-    x_test[:,:,:,0] = (x_test[:,:,:,0] - np.mean(x_test[:,:,:,0])) / np.std(x_test[:,:,:,0])
-    x_test[:,:,:,1] = (x_test[:,:,:,1] - np.mean(x_test[:,:,:,1])) / np.std(x_test[:,:,:,1])
-    x_test[:,:,:,2] = (x_test[:,:,:,2] - np.mean(x_test[:,:,:,2])) / np.std(x_test[:,:,:,2])
+    for i in range(3):
+        x_train[:,:,:,i] = (x_train[:,:,:,i] - mean[i]) / std[i]
+        x_test[:,:,:,i] = (x_test[:,:,:,i] - mean[i]) / std[i]
 
     # build network
     model = build_model()
     print(model.summary())
+
     # set callback
     tb_cb = TensorBoard(log_dir=log_filepath, histogram_freq=0)
     change_lr = LearningRateScheduler(scheduler)

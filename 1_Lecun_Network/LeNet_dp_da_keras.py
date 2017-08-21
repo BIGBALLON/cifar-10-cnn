@@ -12,6 +12,8 @@ epochs        = 180
 iterations    = 391
 num_classes   = 10
 log_filepath  = './lenet_dp_da'
+mean          = [125.307, 122.95, 113.865]
+std           = [62.9932, 62.0887, 66.7048]
 
 def build_model():
     model = Sequential()
@@ -47,15 +49,10 @@ if __name__ == '__main__':
     x_test = x_test.astype('float32')
     
     # data preprocessing  [raw - mean / std]
-
-    x_train[:,:,:,0] = (x_train[:,:,:,0] - np.mean(x_train[:,:,:,0])) / np.std(x_train[:,:,:,0])
-    x_train[:,:,:,1] = (x_train[:,:,:,1] - np.mean(x_train[:,:,:,1])) / np.std(x_train[:,:,:,1])
-    x_train[:,:,:,2] = (x_train[:,:,:,2] - np.mean(x_train[:,:,:,2])) / np.std(x_train[:,:,:,2])
-
-    x_test[:,:,:,0] = (x_test[:,:,:,0] - np.mean(x_test[:,:,:,0])) / np.std(x_test[:,:,:,0])
-    x_test[:,:,:,1] = (x_test[:,:,:,1] - np.mean(x_test[:,:,:,1])) / np.std(x_test[:,:,:,1])
-    x_test[:,:,:,2] = (x_test[:,:,:,2] - np.mean(x_test[:,:,:,2])) / np.std(x_test[:,:,:,2])
-
+    for i in range(3):
+        x_train[:,:,:,i] = (x_train[:,:,:,i] - mean[i]) / std[i]
+        x_test[:,:,:,i] = (x_test[:,:,:,i] - mean[i]) / std[i]
+        
     # build network
     model = build_model()
     print(model.summary())
