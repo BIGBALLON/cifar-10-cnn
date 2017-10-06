@@ -22,19 +22,20 @@ from keras.utils.data_utils import get_file
 
 num_classes  = 10
 batch_size   = 128
-epochs       = 170
+epochs       = 200
 iterations   = 391
 dropout      = 0.5
 weight_decay = 0.0005
 log_filepath = r'./vgg19_retrain_logs/'
 
 def scheduler(epoch):
-  learning_rate_init = 0.1
-  if epoch > 80:
-    learning_rate_init = 0.01
-  if epoch > 120:
-    learning_rate_init = 0.001
-  return learning_rate_init
+    if epoch <= 60:
+        return 0.05
+    if epoch <= 120:
+        return 0.01
+    if epoch <= 160:    
+        return 0.002
+    return 0.0004
 
 WEIGHTS_PATH = 'https://github.com/fchollet/deep-learning-models/releases/download/v0.1/vgg19_weights_tf_dim_ordering_tf_kernels.h5'
 filepath = get_file('vgg19_weights_tf_dim_ordering_tf_kernels.h5', WEIGHTS_PATH, cache_subdir='models')

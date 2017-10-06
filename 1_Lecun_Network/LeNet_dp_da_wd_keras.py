@@ -9,13 +9,12 @@ from keras.preprocessing.image import ImageDataGenerator
 from keras.regularizers import l2
 
 batch_size    = 128
-epochs        = 150
+epochs        = 200
 iterations    = 391
 num_classes   = 10
 weight_decay  = 0.0001
 mean          = [125.307, 122.95, 113.865]
 std           = [62.9932, 62.0887, 66.7048]
-lr            = [0.02, 0.004, 0.0008]
 
 log_filepath  = './lenet_dp_da_wd'
 
@@ -34,7 +33,13 @@ def build_model():
     return model
 
 def scheduler(epoch):
-    return lr[epoch//50]
+    if epoch <= 60:
+        return 0.05
+    if epoch <= 120:
+        return 0.01
+    if epoch <= 160:    
+        return 0.002
+    return 0.0004
 
 if __name__ == '__main__':
 

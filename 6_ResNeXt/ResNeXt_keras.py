@@ -12,7 +12,7 @@ from keras.models import Model
 from keras import optimizers
 from keras import regularizers
 
-cardinality        = 8          # 4 or 8 or 16 or 32
+cardinality        = 4          # 4 or 8 or 16 or 32
 base_width         = 64
 inplanes           = 64
 expansion          = 4
@@ -29,11 +29,13 @@ mean = [125.307, 122.95, 113.865]
 std  = [62.9932, 62.0887, 66.7048]
 
 def scheduler(epoch):
-    if epoch <= 100:
+    if epoch <= 75:
         return 0.05
-    if epoch <= 180:
+    if epoch <= 150:
         return 0.005
-    return 0.0005
+    if epoch <= 210:
+        return 0.0005
+    return 0.0001
 
 def resnext(img_input,classes_num):
     global inplanes

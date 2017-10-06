@@ -11,7 +11,7 @@ from keras.callbacks import LearningRateScheduler, TensorBoard
 from keras.layers.normalization import BatchNormalization
 
 batch_size    = 128
-epochs        = 164
+epochs        = 200
 iterations    = 391
 num_classes   = 10
 dropout       = 0.5
@@ -29,12 +29,13 @@ def color_preprocessing(x_train,x_test):
     return x_train, x_test
 
 def scheduler(epoch):
-  learning_rate_init = 0.08
-  if epoch >= 81:
-    learning_rate_init = 0.01
-  if epoch >= 122:
-    learning_rate_init = 0.001
-  return learning_rate_init
+    if epoch <= 60:
+        return 0.05
+    if epoch <= 120:
+        return 0.01
+    if epoch <= 160:    
+        return 0.002
+    return 0.0004
 
 def build_model():
   model = Sequential()

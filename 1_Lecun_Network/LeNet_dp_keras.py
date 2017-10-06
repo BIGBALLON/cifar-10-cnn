@@ -7,7 +7,7 @@ from keras.layers import Conv2D, Dense, Flatten, MaxPooling2D
 from keras.callbacks import LearningRateScheduler, TensorBoard
 
 batch_size    = 128
-epochs        = 180
+epochs        = 200
 iterations    = 391
 num_classes   = 10
 log_filepath  = './lenet_dp'
@@ -27,14 +27,13 @@ def build_model():
     return model
 
 def scheduler(epoch):
-    learning_rate_init = 0.02
-    if epoch >= 60:
-        learning_rate_init = 0.01
-    if epoch >= 120:
-        learning_rate_init = 0.004
-    if epoch >= 160:    
-        learning_rate_init = 0.0008
-    return learning_rate_init
+    if epoch <= 60:
+        return 0.05
+    if epoch <= 120:
+        return 0.01
+    if epoch <= 160:    
+        return 0.002
+    return 0.0004
 
 if __name__ == '__main__':
 
