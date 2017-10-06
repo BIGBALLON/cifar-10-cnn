@@ -20,12 +20,12 @@ base_width         = 64
 inplanes           = 64
 expansion          = 4
 
-img_rows, img_cols = 32, 32
+img_rows, img_cols = 32, 32     
 img_channels       = 3
 num_classes        = 10
-batch_size         = 64         # 64 or 32 or other
+batch_size         = 64  # 120       
+iterations         = 781 # 416       # total data / iterations = batch size
 epochs             = 250
-iterations         = 391         
 weight_decay       = 0.0005
 
 mean = [125.307, 122.95, 113.865]
