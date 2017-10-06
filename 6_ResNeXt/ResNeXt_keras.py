@@ -20,9 +20,9 @@ expansion          = 4
 img_rows, img_cols = 32, 32
 img_channels       = 3
 num_classes        = 10
-batch_size         = 128         # 64 or 32 or other
-epochs             = 275
-iterations         = 391         
+batch_size         = 120         # 64 or 32 or other
+epochs             = 250
+iterations         = 417         
 weight_decay       = 0.0005
 
 mean = [125.307, 122.95, 113.865]

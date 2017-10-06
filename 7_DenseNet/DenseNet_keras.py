@@ -23,17 +23,19 @@ num_classes        = 10
 batch_size         = 64         # 64 or 32 or other
 epochs             = 250
 iterations         = 782       
-weight_decay       = 0.0001
+weight_decay       = 0.0002
 
 mean = [125.307, 122.95, 113.865]
 std  = [62.9932, 62.0887, 66.7048]
 
 def scheduler(epoch):
-    if epoch <= 100:
-       return 0.1
-    if epoch <= 180:
-       return 0.01
-    return 0.0005
+    if epoch <= 75:
+        return 0.05
+    if epoch <= 150:
+        return 0.005
+    if epoch <= 210:
+        return 0.0005
+    return 0.0001
 
 def densenet(img_input,classes_num):
 
