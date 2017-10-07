@@ -1,4 +1,4 @@
-# cifar-10-cnn
+# Convolutional Neural Networks (CNN) for CIFAR-10 Dataset
 
 
 This repository is about some CNN Architecture's implementations for **cifar10**.  
@@ -10,9 +10,8 @@ I just use **Keras** and **Tensorflow** to implementate all of these CNN models.
 ## Requirements
 
 - Python (3.5.2)
-- Keras (2.0.6)
-- tensorflow-gpu (1.2.1)
-
+- Keras (2.0.8)
+- tensorflow-gpu (1.3.0)
 
 
 ## Architectures and papers
@@ -50,11 +49,29 @@ I just use **Keras** and **Tensorflow** to implementate all of these CNN models.
 | ResNeXt-4x64d         |    -    |   meanstd  | GTX1080TI | 20M     |  22 h 50 min  |    95.51    |
 | SENet(ResNeXt-4x64d)  |    -    |   meanstd  | GTX1080   | 20M     |  -            |   -         |
 
+Now, I fixed some bugs and used 1080TI to retrain all of the following models.  
+
+**In particular**：  
+Change the batch size according to your GPU's memory.  
+Modify the learning rate schedule may imporve the results of accuracy!  
+
+| network               | GPU       | params  | batch size | epoch | training time | accuracy(%) |
+|:----------------------|:---------:|:-------:|:----------:|:-----:|:-------------:|:-----------:|
+| Lecun-Network         | GTX1080TI | 62k     |   128      |  200  |    30 min     |    76.25    |
+| Network-in-Network    | GTX1080TI | 0.97M   |   128      |  200  |    1 h 40 min |    91.63    |
+| Vgg19-Network         | GTX1080TI | 45M     |   128      |  200  |    2 h 17 min |    93.40    |
+| Residual-Network50    | GTX1080TI | 1.7M    |   128      |  200  |    4 h 29 min |    94.44    |
+| Wide-resnet 16x8      | GTX1080TI | 11.3M   |   128      |  200  |   5 h 1 min   |    95.13    |
+| DenseNet-100x12       | GTX1080TI | 0.85M   |   64       |  250  |   19 h 2 min  |    94.91    |
+| ResNeXt-4x64d         | GTX1080TI | 20M     |   120      |  250  |   21 h 3 min  |    95.19    |
+| SENet(ResNeXt-4x64d)  | GTX1080TI | 20M     |   120      |  250  |   21 h 57 min |    95.60    |
+
+
 ## About ResNeXt & DenseNet
 
 Because I don't have enough machines to train the larger networks.    
 So I only trained the smallest network described in the paper.  
-You can see the results in [liuzhuang13/DenseNet][11] and [prlz77/ResNeXt.pytorch][12]
+You can see the results in [liuzhuang13/DenseNet][12] and [prlz77/ResNeXt.pytorch][13]
 
 
   [1]: ./images/cf10.png
@@ -67,5 +84,6 @@ You can see the results in [liuzhuang13/DenseNet][11] and [prlz77/ResNeXt.pytorc
   [8]: https://arxiv.org/abs/1611.05431
   [9]: https://arxiv.org/abs/1608.06993
   [10]: https://arxiv.org/abs/1709.01507
-  [11]: https://github.com/liuzhuang13/DenseNet
-  [12]: https://github.com/prlz77/ResNeXt.pytorch
+  [11]: ./images/results.jpg
+  [12]: https://github.com/liuzhuang13/DenseNet
+  [13]: https://github.com/prlz77/ResNeXt.pytorch
