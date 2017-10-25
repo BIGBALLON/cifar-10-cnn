@@ -5,7 +5,11 @@ from PIL import Image
 import numpy as np
 import os.path
 
-model = VGG19(weights='imagenet')
+# Using ImageNet pre_trained weights to predict image's class(1000 class)
+# ImageNet -- http://www.image-net.org/
+# make sure your package pillow is the latest version 
+
+model = VGG19(weights='imagenet') # load keras ImageNet pre_trained model
 
 while True:
 	img_path = input('Please input picture file to predict ( input Q to exit ):  ')
@@ -35,7 +39,7 @@ while True:
 			img = img.resize( (weight, height), Image.BILINEAR )
 			region = ( 0, height / 2 - 112 , weight, height / 2 + 112  )
 			img = img.crop( region )
-		x = np.array( img, dtype = 'float32' )
+		x = np.asarray( img, dtype = 'float32' )
 		x[:, :, 0] = x[:, :, 0] - 123.680
 		x[:, :, 1] = x[:, :, 1] - 116.779
 		x[:, :, 2] = x[:, :, 2] - 103.939
