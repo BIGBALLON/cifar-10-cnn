@@ -12,6 +12,7 @@ from keras.callbacks import LearningRateScheduler, TensorBoard, ModelCheckpoint
 from keras.models import Model
 from keras import optimizers
 from keras import regularizers
+from keras.utils import plot_model
 
 growth_rate        = 12 
 depth              = 100
@@ -23,19 +24,19 @@ num_classes        = 10
 batch_size         = 64         # 64 or 32 or other
 epochs             = 250
 iterations         = 782       
-weight_decay       = 0.0002
+weight_decay       = 0.0001
 
 mean = [125.307, 122.95, 113.865]
 std  = [62.9932, 62.0887, 66.7048]
 
 def scheduler(epoch):
     if epoch <= 75:
-        return 0.05
+        return 0.1
     if epoch <= 150:
-        return 0.005
+        return 0.01
     if epoch <= 210:
-        return 0.0005
-    return 0.0001
+        return 0.001
+    return 0.0005
 
 def densenet(img_input,classes_num):
 
@@ -58,10 +59,11 @@ def densenet(img_input,classes_num):
         return x
 
     def transition(x, inchannels):
+        outchannels = int(inchannels * compression)
         x = bn_relu(x)
-        x = Conv2D(int(inchannels * compression),kernel_size=(1,1),strides=(1,1),padding='same',kernel_initializer=he_normal(),kernel_regularizer=regularizers.l2(weight_decay),use_bias=False)(x)
+        x = Conv2D(outchannels,kernel_size=(1,1),strides=(1,1),padding='same',kernel_initializer=he_normal(),kernel_regularizer=regularizers.l2(weight_decay),use_bias=False)(x)
         x = AveragePooling2D((2,2), strides=(2, 2))(x)
-        return x
+        return x, outchannels
 
     def dense_block(x,blocks,nchannels):
         concat = x
@@ -75,17 +77,17 @@ def densenet(img_input,classes_num):
         return Dense(classes_num,activation='softmax',kernel_initializer=he_normal(),kernel_regularizer=regularizers.l2(weight_decay))(x)
 
 
-    # nblocks = (depth - 4) // 3 
     nblocks = (depth - 4) // 6 
     nchannels = growth_rate * 2
 
     x = Conv2D(nchannels,kernel_size=(3,3),strides=(1,1),padding='same',kernel_initializer=he_normal(),kernel_regularizer=regularizers.l2(weight_decay),use_bias=False)(img_input)
 
     x, nchannels = dense_block(x,nblocks,nchannels)
-    x = transition(x,nchannels)
+    x, nchannels = transition(x,nchannels)
     x, nchannels = dense_block(x,nblocks,nchannels)
-    x = transition(x,nchannels)
+    x, nchannels = transition(x,nchannels)
     x, nchannels = dense_block(x,nblocks,nchannels)
+    x, nchannels = transition(x,nchannels)
     x = bn_relu(x)
     x = GlobalAveragePooling2D()(x)
     x = dense_layer(x)
@@ -111,6 +113,8 @@ if __name__ == '__main__':
     output    = densenet(img_input,num_classes)
     model     = Model(img_input, output)
     # model.load_weights('ckpt.h5')
+    
+    plot_model(model, show_shapes=True, to_file='model.png')
     print(model.summary())
 
     # set optimizer
