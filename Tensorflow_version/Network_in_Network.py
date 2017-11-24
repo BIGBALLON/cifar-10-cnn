@@ -57,7 +57,7 @@ def global_avg_pool(input, k_size=1, stride=1):
 
 def learning_rate_schedule(epoch_num):
       if epoch_num < 81:
-          return 0.085
+          return 0.05
       elif epoch_num < 121:
           return 0.01
       else:

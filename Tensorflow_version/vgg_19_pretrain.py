@@ -21,7 +21,6 @@ model_save_path = './model/'
 
 
 # ========================================================== #
-# ├─ weight_variable()  Kai-Ming He's WI sqrt(2/(k*k*c))
 # ├─ bias_variable()
 # ├─ conv2d()           With Batch Normalization
 # ├─ max_pool()

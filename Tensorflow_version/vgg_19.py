@@ -14,7 +14,7 @@ from data_utility import *
 iterations      = 200
 batch_size      = 250
 total_epoch     = 164
-weight_decay    = 0.0005
+weight_decay    = 0.0003
 dropout_rate    = 0.5
 momentum_rate   = 0.9
 log_save_path   = './vgg_logs'
@@ -22,7 +22,6 @@ model_save_path = './model/'
 
 
 # ========================================================== #
-# ├─ weight_variable()  Kai-Ming He's WI sqrt(2/(k*k*c))
 # ├─ bias_variable()
 # ├─ conv2d()           With Batch Normalization
 # ├─ max_pool()
