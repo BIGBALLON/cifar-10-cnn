@@ -64,6 +64,7 @@ Modify the learning rate schedule may imporve the results of accuracy!
 | Wide-resnet 16x8      | GTX1080TI | 11.3M   |   128      |  200  |   5 h 1 min   |    95.13    |
 | DenseNet-100x12       | GTX1080TI | 0.85M   |   64       |  250  |   17 h 20 min |    94.91    |
 | DenseNet-100x24       | GTX1080TI | 3.3M    |   64       |  250  |   22 h 27 min |    95.30    |
+| DenseNet-160x24       | 1080 x 2  | 7.5M    |   64       |  250  |   50 h 20 min |    95.90    |
 | ResNeXt-4x64d         | GTX1080TI | 20M     |   120      |  250  |   21 h 3 min  |    95.19    |
 | SENet(ResNeXt-4x64d)  | GTX1080TI | 20M     |   120      |  250  |   21 h 57 min |    95.60    |
 
