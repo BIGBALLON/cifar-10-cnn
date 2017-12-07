@@ -5,7 +5,8 @@ This repository is about some CNN Architecture's implementations for **cifar10**
 
 ![cifar10][1]
 
-I just use **Keras** and **Tensorflow** to implementate all of these CNN models.
+I just use **Keras** and **Tensorflow** to implementate all of these CNN models.  
+(maybe pytorch version if I have time)
 
 ## Requirements
 
@@ -42,8 +43,8 @@ I just use **Keras** and **Tensorflow** to implementate all of these CNN models.
 | Lecun-Network         |    -    |   meanstd  | GTX980TI  | 62k     |    30 min     |    76.27    |
 | Network-in-Network    |   0.5   |   meanstd  | GTX1060   | 0.96M   |    1 h 30 min |    91.25    |
 | Network-in-Network_bn |   0.5   |   meanstd  | GTX980TI  | 0.97M   |    2 h 20 min |    91.75    |
-| Vgg19-Network         |   0.5   |   meanstd  | GTX980TI  | 45M     |    4 hours    |    93.53    |
-| Residual-Network50    |    -    |   meanstd  | GTX980TI  | 1.7M    |    8 h 58 min |    94.10    |
+| Vgg19-Network         |   0.5   |   meanstd  | GTX980TI  | 39M     |    4 hours    |    93.53    |
+| Residual-Network110   |    -    |   meanstd  | GTX980TI  | 1.7M    |    8 h 58 min |    94.10    |
 | Wide-resnet 16x8      |    -    |   meanstd  | GTX1060   | 11.3M   |  11 h 32 min  |    95.14    |
 | DenseNet-100x12       |    -    |   meanstd  | GTX980TI  | 0.85M   |  30 h 40 min  |    95.15    |
 | ResNeXt-4x64d         |    -    |   meanstd  | GTX1080TI | 20M     |  22 h 50 min  |    95.51    |
@@ -59,8 +60,10 @@ Modify the learning rate schedule may imporve the results of accuracy!
 |:----------------------|:---------:|:-------:|:----------:|:-----:|:-------------:|:-----------:|
 | Lecun-Network         | GTX1080TI | 62k     |   128      |  200  |    30 min     |    76.25    |
 | Network-in-Network    | GTX1080TI | 0.97M   |   128      |  200  |    1 h 40 min |    91.63    |
-| Vgg19-Network         | GTX1080TI | 45M     |   128      |  200  |    2 h 17 min |    93.40    |
-| Residual-Network50    | GTX1080TI | 1.7M    |   128      |  200  |    4 h 29 min |    94.44    |
+| Vgg19-Network         | GTX1080TI | 39M     |   128      |  200  |    1 h 53 min |    93.53    |
+| Residual-Network20    | GTX1080TI | 0.27M   |   128      |  200  |    47 min     |    92.16    |
+| Residual-Network32    | GTX1080TI | 0.47M   |   128      |  200  |    1 h 13 min |    92.86    |
+| Residual-Network110   | GTX1080TI | 1.7M    |   128      |  200  |    4 h 30 min |    94.44    |
 | Wide-resnet 16x8      | GTX1080TI | 11.3M   |   128      |  200  |   5 h 1 min   |    95.13    |
 | DenseNet-100x12       | GTX1080TI | 0.85M   |   64       |  250  |   17 h 20 min |    94.91    |
 | DenseNet-100x24       | GTX1080TI | 3.3M    |   64       |  250  |   22 h 27 min |    95.30    |
