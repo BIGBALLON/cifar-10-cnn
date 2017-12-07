@@ -25,17 +25,15 @@ batch_size   = 128
 epochs       = 200
 iterations   = 391
 dropout      = 0.5
-weight_decay = 0.0005
+weight_decay = 0.0001
 log_filepath = r'./vgg19_retrain_logs/'
 
 def scheduler(epoch):
-    if epoch <= 60:
-        return 0.05
-    if epoch <= 120:
+    if epoch < 80:
+        return 0.1
+    if epoch < 160:
         return 0.01
-    if epoch <= 160:    
-        return 0.002
-    return 0.0004
+    return 0.001
 
 WEIGHTS_PATH = 'https://github.com/fchollet/deep-learning-models/releases/download/v0.1/vgg19_weights_tf_dim_ordering_tf_kernels.h5'
 filepath = get_file('vgg19_weights_tf_dim_ordering_tf_kernels.h5', WEIGHTS_PATH, cache_subdir='models')
@@ -119,6 +117,7 @@ model.add(Activation('relu'))
 model.add(Conv2D(512, (3, 3), padding='same', kernel_regularizer=keras.regularizers.l2(weight_decay), kernel_initializer=he_normal(), name='block5_conv4'))
 model.add(BatchNormalization())
 model.add(Activation('relu'))
+model.add(MaxPooling2D((2, 2), strides=(2, 2), name='block5_pool'))
 
 # model modification for cifar-10
 model.add(Flatten(name='flatten'))
