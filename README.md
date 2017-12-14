@@ -35,6 +35,11 @@ I just use **Keras** and **Tensorflow** to implementate all of these CNN models.
 -  **SENet**
     - [Squeeze-and-Excitation Networks][10]  
 
+## Documents & tutorials
+
+There are also some documents and tutorials in [doc][11] & [issues/3][12].  
+See that if you need.
+
 
 ## Accuracy of all my implementations
 
@@ -76,8 +81,9 @@ Modify the learning rate schedule may imporve the results of accuracy!
 
 Because I don't have enough machines to train the larger networks.    
 So I only trained the smallest network described in the paper.  
-You can see the results in [liuzhuang13/DenseNet][12] and [prlz77/ResNeXt.pytorch][13]
+You can see the results in [liuzhuang13/DenseNet][13] and [prlz77/ResNeXt.pytorch][14]
 
+Please feel free to contact me if you have any questions!
 
   [1]: ./images/cf10.png
   [2]: http://yann.lecun.com/exdb/lenet/
@@ -89,6 +95,7 @@ You can see the results in [liuzhuang13/DenseNet][12] and [prlz77/ResNeXt.pytorc
   [8]: https://arxiv.org/abs/1611.05431
   [9]: https://arxiv.org/abs/1608.06993
   [10]: https://arxiv.org/abs/1709.01507
-  [11]: ./images/results.jpg
-  [12]: https://github.com/liuzhuang13/DenseNet
-  [13]: https://github.com/prlz77/ResNeXt.pytorch
+  [11]: ./doc
+  [12]: https://github.com/BIGBALLON/cifar-10-cnn/issues/3
+  [13]: https://github.com/liuzhuang13/DenseNet
+  [14]: https://github.com/prlz77/ResNeXt.pytorch
