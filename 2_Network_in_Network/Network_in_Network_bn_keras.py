@@ -15,6 +15,7 @@ epochs        = 200
 iterations    = 391
 num_classes   = 10
 dropout       = 0.5
+weight_decay  = 0.0001
 log_filepath  = './nin_bn'
 
 def color_preprocessing(x_train,x_test):
@@ -40,39 +41,39 @@ def scheduler(epoch):
 def build_model():
   model = Sequential()
 
-  model.add(Conv2D(192, (5, 5), padding='same', kernel_regularizer=keras.regularizers.l2(0.0001), kernel_initializer=RandomNormal(stddev = 0.01), input_shape=x_train.shape[1:]))
+  model.add(Conv2D(192, (5, 5), padding='same', kernel_regularizer=keras.regularizers.l2(weight_decay), kernel_initializer="he_normal", input_shape=x_train.shape[1:]))
   model.add(BatchNormalization())
   model.add(Activation('relu'))
-  model.add(Conv2D(160, (1, 1), padding='same', kernel_regularizer=keras.regularizers.l2(0.0001), kernel_initializer=RandomNormal(stddev = 0.05)))
+  model.add(Conv2D(160, (1, 1), padding='same', kernel_regularizer=keras.regularizers.l2(weight_decay), kernel_initializer="he_normal"))
   model.add(BatchNormalization())
   model.add(Activation('relu'))
-  model.add(Conv2D(96, (1, 1), padding='same', kernel_regularizer=keras.regularizers.l2(0.0001), kernel_initializer=RandomNormal(stddev = 0.05)))
-  model.add(BatchNormalization())
-  model.add(Activation('relu'))
-  model.add(MaxPooling2D(pool_size=(3, 3),strides=(2,2),padding = 'same'))
-  
-  model.add(Dropout(dropout))
-  
-  model.add(Conv2D(192, (5, 5), padding='same', kernel_regularizer=keras.regularizers.l2(0.0001), kernel_initializer=RandomNormal(stddev = 0.05)))
-  model.add(BatchNormalization())
-  model.add(Activation('relu'))
-  model.add(Conv2D(192, (1, 1),padding='same', kernel_regularizer=keras.regularizers.l2(0.0001), kernel_initializer=RandomNormal(stddev = 0.05)))
-  model.add(BatchNormalization())
-  model.add(Activation('relu'))
-  model.add(Conv2D(192, (1, 1),padding='same', kernel_regularizer=keras.regularizers.l2(0.0001), kernel_initializer=RandomNormal(stddev = 0.05)))
+  model.add(Conv2D(96, (1, 1), padding='same', kernel_regularizer=keras.regularizers.l2(weight_decay), kernel_initializer="he_normal"))
   model.add(BatchNormalization())
   model.add(Activation('relu'))
   model.add(MaxPooling2D(pool_size=(3, 3),strides=(2,2),padding = 'same'))
   
   model.add(Dropout(dropout))
   
-  model.add(Conv2D(192, (3, 3), padding='same', kernel_regularizer=keras.regularizers.l2(0.0001), kernel_initializer=RandomNormal(stddev = 0.05)))
+  model.add(Conv2D(192, (5, 5), padding='same', kernel_regularizer=keras.regularizers.l2(weight_decay), kernel_initializer="he_normal"))
   model.add(BatchNormalization())
   model.add(Activation('relu'))
-  model.add(Conv2D(192, (1, 1), padding='same', kernel_regularizer=keras.regularizers.l2(0.0001), kernel_initializer=RandomNormal(stddev = 0.05)))
+  model.add(Conv2D(192, (1, 1),padding='same', kernel_regularizer=keras.regularizers.l2(weight_decay), kernel_initializer="he_normal"))
   model.add(BatchNormalization())
   model.add(Activation('relu'))
-  model.add(Conv2D(10, (1, 1), padding='same', kernel_regularizer=keras.regularizers.l2(0.0001), kernel_initializer=RandomNormal(stddev = 0.05)))
+  model.add(Conv2D(192, (1, 1),padding='same', kernel_regularizer=keras.regularizers.l2(weight_decay), kernel_initializer="he_normal"))
+  model.add(BatchNormalization())
+  model.add(Activation('relu'))
+  model.add(MaxPooling2D(pool_size=(3, 3),strides=(2,2),padding = 'same'))
+  
+  model.add(Dropout(dropout))
+  
+  model.add(Conv2D(192, (3, 3), padding='same', kernel_regularizer=keras.regularizers.l2(weight_decay), kernel_initializer="he_normal"))
+  model.add(BatchNormalization())
+  model.add(Activation('relu'))
+  model.add(Conv2D(192, (1, 1), padding='same', kernel_regularizer=keras.regularizers.l2(weight_decay), kernel_initializer="he_normal"))
+  model.add(BatchNormalization())
+  model.add(Activation('relu'))
+  model.add(Conv2D(10, (1, 1), padding='same', kernel_regularizer=keras.regularizers.l2(weight_decay), kernel_initializer="he_normal"))
   model.add(BatchNormalization())
   model.add(Activation('relu'))
   
