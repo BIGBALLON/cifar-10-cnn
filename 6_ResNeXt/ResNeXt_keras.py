@@ -21,26 +21,24 @@ img_rows, img_cols = 32, 32
 img_channels       = 3
 num_classes        = 10
 batch_size         = 120         # 64 or 32 or other
-epochs             = 250
+epochs             = 300
 iterations         = 417         
-weight_decay       = 0.0005
+weight_decay       = 1e-5
 
 mean = [125.307, 122.95, 113.865]
 std  = [62.9932, 62.0887, 66.7048]
 
 def scheduler(epoch):
-    if epoch <= 75:
-        return 0.05
-    if epoch <= 150:
-        return 0.005
-    if epoch <= 210:
-        return 0.0005
-    return 0.0001
+    if epoch < 150:
+        return 0.1
+    if epoch < 225:
+        return 0.01
+    return 0.001
 
 def resnext(img_input,classes_num):
     global inplanes
     def add_common_layer(x):
-        x = BatchNormalization()(x)
+        x = BatchNormalization(momentum=0.9, epsilon=1e-5)(x)
         x = Activation('relu')(x)
         return x
 
@@ -71,7 +69,7 @@ def resnext(img_input,classes_num):
 
         if stride != (1,1) or inplanes != planes * expansion:
             shortcut = Conv2D(planes * expansion, kernel_size=(1,1), strides=stride, padding='same', kernel_initializer=he_normal(),kernel_regularizer=regularizers.l2(weight_decay),use_bias=False)(x)
-            shortcut = BatchNormalization()(shortcut)
+            shortcut = BatchNormalization(momentum=0.9, epsilon=1e-5)(shortcut)
         y = add([y,shortcut])
         y = Activation('relu')(y)
         return y

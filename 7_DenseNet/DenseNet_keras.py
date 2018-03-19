@@ -22,26 +22,24 @@ img_rows, img_cols = 32, 32
 img_channels       = 3
 num_classes        = 10
 batch_size         = 64         # 64 or 32 or other
-epochs             = 250
+epochs             = 300
 iterations         = 782       
-weight_decay       = 0.0001
+weight_decay       = 1e-4
 
 mean = [125.307, 122.95, 113.865]
 std  = [62.9932, 62.0887, 66.7048]
 
 def scheduler(epoch):
-    if epoch <= 75:
+    if epoch < 150:
         return 0.1
-    if epoch <= 150:
+    if epoch < 225:
         return 0.01
-    if epoch <= 210:
-        return 0.001
-    return 0.0005
+    return 0.001
 
 def densenet(img_input,classes_num):
 
     def bn_relu(x):
-        x = BatchNormalization()(x)
+        x = BatchNormalization(momentum=0.9, epsilon=1e-5)(x)
         x = Activation('relu')(x)
         return x
 
