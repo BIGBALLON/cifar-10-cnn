@@ -1,16 +1,9 @@
 import keras
-import numpy as np
-from keras import optimizers
+from keras.optimizers import SGD
 from keras.datasets import cifar10
 from keras.models import Sequential
 from keras.layers import Conv2D, Dense, Flatten, MaxPooling2D
 from keras.callbacks import LearningRateScheduler, TensorBoard
-
-batch_size    = 128
-epochs        = 200
-iterations    = 391
-num_classes   = 10
-log_filepath  = './lenet_dp'
 
 def build_model():
     model = Sequential()
@@ -22,7 +15,7 @@ def build_model():
     model.add(Dense(120, activation = 'relu', kernel_initializer='he_normal'))
     model.add(Dense(84, activation = 'relu', kernel_initializer='he_normal'))
     model.add(Dense(10, activation = 'softmax', kernel_initializer='he_normal'))
-    sgd = optimizers.SGD(lr=.1, momentum=0.9, nesterov=True)
+    sgd = SGD(lr=.1, momentum=0.9, nesterov=True)
     model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
     return model
 
@@ -37,29 +30,21 @@ if __name__ == '__main__':
 
     # load data
     (x_train, y_train), (x_test, y_test) = cifar10.load_data()
-    y_train = keras.utils.to_categorical(y_train, num_classes)
-    y_test = keras.utils.to_categorical(y_test, num_classes)
-    x_train = x_train.astype('float32')
-    x_test = x_test.astype('float32')
-    
-    # x_train /= 255
-    # x_test /= 255
-    mean  = [125.307, 122.95, 113.865]
-    std   = [62.9932, 62.0887, 66.7048]
-    for i in range(3):
-        x_train[:,:,:,i] = (x_train[:,:,:,i] - mean[i]) / std[i]
-        x_test[:,:,:,i] = (x_test[:,:,:,i] - mean[i]) / std[i]
+    y_train = keras.utils.to_categorical(y_train, 10)
+    y_test = keras.utils.to_categorical(y_test, 10)
+    x_train = x_train.astype('float32') / 255.0
+    x_test = x_test.astype('float32') / 255.0
 
     # build network
     model = build_model()
-    print(model.summary())
+    
     # set callback
-    tb_cb = TensorBoard(log_dir=log_filepath, histogram_freq=0)
+    tb_cb = TensorBoard(log_dir='./lenet', histogram_freq=0)
     change_lr = LearningRateScheduler(scheduler)
     cbks = [change_lr,tb_cb]
 
     # start traing 
-    model.fit(x_train, y_train,batch_size=batch_size,epochs=epochs,callbacks=cbks,
+    model.fit(x_train, y_train,batch_size=128,epochs=200,callbacks=cbks,
                   validation_data=(x_test, y_test), shuffle=True)
     # save model
     model.save('lenet.h5')

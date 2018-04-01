@@ -29,6 +29,13 @@ weight_decay       = 1e-4
 mean = [125.307, 122.95, 113.865]
 std  = [62.9932, 62.0887, 66.7048]
 
+if('tensorflow' == K.backend()):
+    import tensorflow as tf
+    from keras.backend.tensorflow_backend import set_session
+    config = tf.ConfigProto()
+    config.gpu_options.allow_growth = True
+    sess = tf.Session(config=config)
+
 def scheduler(epoch):
     if epoch < 150:
         return 0.1

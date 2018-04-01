@@ -18,6 +18,13 @@ dropout       = 0.5
 weight_decay  = 0.0001
 log_filepath  = './nin'
 
+if('tensorflow' == K.backend()):
+    import tensorflow as tf
+    from keras.backend.tensorflow_backend import set_session
+    config = tf.ConfigProto()
+    config.gpu_options.allow_growth = True
+    sess = tf.Session(config=config)
+    
 def color_preprocessing(x_train,x_test):
     x_train = x_train.astype('float32')
     x_test = x_test.astype('float32')

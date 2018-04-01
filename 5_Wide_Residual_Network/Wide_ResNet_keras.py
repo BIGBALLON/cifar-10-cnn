@@ -25,7 +25,6 @@ LOG_FILE_PATH      = './w_resnet/'
 
 
 from keras import backend as K
-
 # set GPU memory 
 if('tensorflow' == K.backend()):
     import tensorflow as tf

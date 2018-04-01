@@ -4,7 +4,7 @@
 # Date created: 07/27/2017
 # Python Version: 3.5.2
 # Tensorflow Vetsion: 1.2.1
-# Result: test accuracy about 93.95 - 94.05%
+# Result: test accuracy about 93.50 ~ 93.70%
 # ========================================================== #
 
 import keras
@@ -27,6 +27,13 @@ iterations   = 391
 dropout      = 0.5
 weight_decay = 0.0001
 log_filepath = r'./vgg19_retrain_logs/'
+
+if('tensorflow' == K.backend()):
+    import tensorflow as tf
+    from keras.backend.tensorflow_backend import set_session
+    config = tf.ConfigProto()
+    config.gpu_options.allow_growth = True
+    sess = tf.Session(config=config)
 
 def scheduler(epoch):
     if epoch < 80:

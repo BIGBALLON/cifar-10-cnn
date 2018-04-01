@@ -30,13 +30,11 @@ def build_model():
     return model
 
 def scheduler(epoch):
-    if epoch <= 60:
+    if epoch < 81:
         return 0.05
-    if epoch <= 120:
-        return 0.01
-    if epoch <= 160:    
-        return 0.002
-    return 0.0004
+    if epoch < 122:
+        return 0.005
+    return 0.0005
 
 if __name__ == '__main__':
 

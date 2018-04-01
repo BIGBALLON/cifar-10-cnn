@@ -62,7 +62,7 @@ Modify the learning rate schedule may imporve the results of accuracy!
 
 | network               | GPU       | params  | batch size | epoch | training time | accuracy(%) |
 |:----------------------|:---------:|:-------:|:----------:|:-----:|:-------------:|:-----------:|
-| Lecun-Network         | GTX1080TI | 62k     |   128      |  200  |    30 min     |    76.25    |
+| Lecun-Network         | GTX1080TI | 62k     |   128      |  200  |    30 min     |    74.48    |
 | Network-in-Network    | GTX1080TI | 0.97M   |   128      |  200  |    1 h 40 min |    91.63    |
 | Vgg19-Network         | GTX1080TI | 39M     |   128      |  200  |    1 h 53 min |    93.53    |
 | Residual-Network20    | GTX1080TI | 0.27M   |   128      |  200  |    44 min     |    91.82    |
