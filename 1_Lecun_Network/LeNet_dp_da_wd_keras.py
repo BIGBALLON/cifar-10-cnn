@@ -16,8 +16,6 @@ weight_decay  = 0.0001
 mean          = [125.307, 122.95, 113.865]
 std           = [62.9932, 62.0887, 66.7048]
 
-log_filepath  = './lenet_dp_da_wd'
-
 def build_model():
     model = Sequential()
     model.add(Conv2D(6, (5, 5), padding='valid', activation = 'relu', kernel_initializer='he_normal', kernel_regularizer=l2(weight_decay), input_shape=(32,32,3)))
@@ -33,11 +31,11 @@ def build_model():
     return model
 
 def scheduler(epoch):
-    if epoch < 81:
-        return 0.05
-    if epoch < 122:
+    if epoch < 100:
+        return 0.01
+    if epoch < 150:
         return 0.005
-    return 0.0005
+    return 0.001
 
 if __name__ == '__main__':
 
@@ -58,7 +56,7 @@ if __name__ == '__main__':
     print(model.summary())
 
     # set callback
-    tb_cb = TensorBoard(log_dir=log_filepath, histogram_freq=0)
+    tb_cb = TensorBoard(log_dir='./lenet_dp_da_wd', histogram_freq=0)
     change_lr = LearningRateScheduler(scheduler)
     cbks = [change_lr,tb_cb]
 
@@ -69,14 +67,11 @@ if __name__ == '__main__':
 
     datagen.fit(x_train)
 
-    # start traing 
+    # start train 
     model.fit_generator(datagen.flow(x_train, y_train,batch_size=batch_size),
                         steps_per_epoch=iterations,
                         epochs=epochs,
                         callbacks=cbks,
                         validation_data=(x_test, y_test))
     # save model
-    model.save('lenet.h5')
-
-
-
+    model.save('lenet_dp_da_wd.h5')

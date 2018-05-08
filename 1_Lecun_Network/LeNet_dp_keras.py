@@ -10,7 +10,6 @@ batch_size    = 128
 epochs        = 200
 iterations    = 391
 num_classes   = 10
-log_filepath  = './lenet_dp'
 
 def build_model():
     model = Sequential()
@@ -27,11 +26,11 @@ def build_model():
     return model
 
 def scheduler(epoch):
-    if epoch < 81:
-        return 0.05
-    if epoch < 122:
+    if epoch < 100:
+        return 0.01
+    if epoch < 150:
         return 0.005
-    return 0.0005
+    return 0.001
 
 if __name__ == '__main__':
 
@@ -53,16 +52,17 @@ if __name__ == '__main__':
     # build network
     model = build_model()
     print(model.summary())
+    
     # set callback
-    tb_cb = TensorBoard(log_dir=log_filepath, histogram_freq=0)
+    tb_cb = TensorBoard(log_dir='./lenet_dp', histogram_freq=0)
     change_lr = LearningRateScheduler(scheduler)
     cbks = [change_lr,tb_cb]
 
-    # start traing 
+    # start train 
     model.fit(x_train, y_train,batch_size=batch_size,epochs=epochs,callbacks=cbks,
                   validation_data=(x_test, y_test), shuffle=True)
     # save model
-    model.save('lenet.h5')
+    model.save('lenet_dp.h5')
 
 
 

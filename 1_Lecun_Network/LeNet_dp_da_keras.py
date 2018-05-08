@@ -11,7 +11,6 @@ batch_size    = 128
 epochs        = 200
 iterations    = 391
 num_classes   = 10
-log_filepath  = './lenet_dp_da'
 mean          = [125.307, 122.95, 113.865]
 std           = [62.9932, 62.0887, 66.7048]
 
@@ -30,11 +29,11 @@ def build_model():
     return model
 
 def scheduler(epoch):
-    if epoch < 81:
-        return 0.05
-    if epoch < 122:
+    if epoch < 100:
+        return 0.01
+    if epoch < 150:
         return 0.005
-    return 0.0005
+    return 0.001
 
 if __name__ == '__main__':
 
@@ -54,7 +53,7 @@ if __name__ == '__main__':
     model = build_model()
     print(model.summary())
     # set callback
-    tb_cb = TensorBoard(log_dir=log_filepath, histogram_freq=0)
+    tb_cb = TensorBoard(log_dir='./lenet_dp_da', histogram_freq=0)
     change_lr = LearningRateScheduler(scheduler)
     cbks = [change_lr,tb_cb]
 
@@ -65,14 +64,14 @@ if __name__ == '__main__':
 
     datagen.fit(x_train)
 
-    # start traing 
+    # start train 
     model.fit_generator(datagen.flow(x_train, y_train,batch_size=batch_size),
                         steps_per_epoch=iterations,
                         epochs=epochs,
                         callbacks=cbks,
                         validation_data=(x_test, y_test))
     # save model
-    model.save('lenet.h5')
+    model.save('lenet_dp_da.h5')
 
 
 
