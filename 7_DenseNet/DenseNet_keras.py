@@ -1,18 +1,16 @@
 import keras
 import math
 import numpy as np
+import keras.backend as K
 from keras.datasets import cifar10
 from keras.preprocessing.image import ImageDataGenerator
 from keras.layers.normalization import BatchNormalization
-from keras.layers import Conv2D, Dense, Input, add, Activation, AveragePooling2D, GlobalAveragePooling2D
-from keras.layers import Lambda, concatenate
+from keras.layers import Conv2D, Dense, Input, add, Activation, AveragePooling2D, GlobalAveragePooling2D, Lambda, concatenate
 from keras.initializers import he_normal
 from keras.layers.merge import Concatenate
 from keras.callbacks import LearningRateScheduler, TensorBoard, ModelCheckpoint
 from keras.models import Model
-from keras import optimizers
-from keras import regularizers
-from keras.utils import plot_model
+from keras import optimizers, regularizers
 
 growth_rate        = 12 
 depth              = 100
@@ -44,6 +42,20 @@ def scheduler(epoch):
     return 0.001
 
 def densenet(img_input,classes_num):
+    def conv(x, out_filters, k_size):
+        return Conv2D(filters=out_filters,
+                      kernel_size=k_size,
+                      strides=(1,1),
+                      padding='same',
+                      kernel_initializer='he_normal',
+                      kernel_regularizer=regularizers.l2(weight_decay),
+                      use_bias=False)(x)
+
+    def dense_layer(x):
+        return Dense(units=classes_num,
+                     activation='softmax',
+                     kernel_initializer='he_normal',
+                     kernel_regularizer=regularizers.l2(weight_decay))(x)
 
     def bn_relu(x):
         x = BatchNormalization(momentum=0.9, epsilon=1e-5)(x)
@@ -53,20 +65,20 @@ def densenet(img_input,classes_num):
     def bottleneck(x):
         channels = growth_rate * 4
         x = bn_relu(x)
-        x = Conv2D(channels,kernel_size=(1,1),strides=(1,1),padding='same',kernel_initializer=he_normal(),kernel_regularizer=regularizers.l2(weight_decay),use_bias=False)(x)
+        x = conv(x, channels, (1,1))
         x = bn_relu(x)
-        x = Conv2D(growth_rate,kernel_size=(3,3),strides=(1,1),padding='same',kernel_initializer=he_normal(),kernel_regularizer=regularizers.l2(weight_decay),use_bias=False)(x)
+        x = conv(x, growth_rate, (3,3))
         return x
 
     def single(x):
         x = bn_relu(x)
-        x = Conv2D(growth_rate,kernel_size=(3,3),strides=(1,1),padding='same',kernel_initializer=he_normal(),kernel_regularizer=regularizers.l2(weight_decay),use_bias=False)(x)
+        x = conv(x, growth_rate, (3,3))
         return x
 
     def transition(x, inchannels):
         outchannels = int(inchannels * compression)
         x = bn_relu(x)
-        x = Conv2D(outchannels,kernel_size=(1,1),strides=(1,1),padding='same',kernel_initializer=he_normal(),kernel_regularizer=regularizers.l2(weight_decay),use_bias=False)(x)
+        x = conv(x, outchannels, (1,1))
         x = AveragePooling2D((2,2), strides=(2, 2))(x)
         return x, outchannels
 
@@ -78,21 +90,17 @@ def densenet(img_input,classes_num):
             nchannels += growth_rate
         return concat, nchannels
 
-    def dense_layer(x):
-        return Dense(classes_num,activation='softmax',kernel_initializer=he_normal(),kernel_regularizer=regularizers.l2(weight_decay))(x)
-
 
     nblocks = (depth - 4) // 6 
     nchannels = growth_rate * 2
 
-    x = Conv2D(nchannels,kernel_size=(3,3),strides=(1,1),padding='same',kernel_initializer=he_normal(),kernel_regularizer=regularizers.l2(weight_decay),use_bias=False)(img_input)
 
+    x = conv(img_input, nchannels, (3,3))
     x, nchannels = dense_block(x,nblocks,nchannels)
     x, nchannels = transition(x,nchannels)
     x, nchannels = dense_block(x,nblocks,nchannels)
     x, nchannels = transition(x,nchannels)
     x, nchannels = dense_block(x,nblocks,nchannels)
-    x, nchannels = transition(x,nchannels)
     x = bn_relu(x)
     x = GlobalAveragePooling2D()(x)
     x = dense_layer(x)
@@ -117,10 +125,13 @@ if __name__ == '__main__':
     img_input = Input(shape=(img_rows,img_cols,img_channels))
     output    = densenet(img_input,num_classes)
     model     = Model(img_input, output)
-    # model.load_weights('ckpt.h5')
     
-    plot_model(model, show_shapes=True, to_file='model.png')
+    # model.load_weights('ckpt.h5')
+
     print(model.summary())
+
+    # from keras.utils import plot_model
+    # plot_model(model, show_shapes=True, to_file='model.png')
 
     # set optimizer
     sgd = optimizers.SGD(lr=.1, momentum=0.9, nesterov=True)
