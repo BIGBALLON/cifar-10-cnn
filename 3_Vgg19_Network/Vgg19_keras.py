@@ -28,6 +28,7 @@ dropout      = 0.5
 weight_decay = 0.0001
 log_filepath = r'./vgg19_retrain_logs/'
 
+from keras import backend as K
 if('tensorflow' == K.backend()):
     import tensorflow as tf
     from keras.backend.tensorflow_backend import set_session

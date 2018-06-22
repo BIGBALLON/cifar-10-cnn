@@ -27,9 +27,8 @@ WEIGHT_DECAY       = 5e-4
 mean = [125.3, 123.0, 113.9]
 std  = [63.0,  62.1,  66.7]
 
-from keras import backend as K
 
-# set GPU memory 
+from keras import backend as K
 if('tensorflow' == K.backend()):
     import tensorflow as tf
     from keras.backend.tensorflow_backend import set_session
