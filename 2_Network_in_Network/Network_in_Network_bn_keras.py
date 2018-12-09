@@ -17,6 +17,7 @@ num_classes   = 10
 dropout       = 0.5
 weight_decay  = 0.0001
 log_filepath  = './nin_bn'
+int n = 1
 
 if('tensorflow' == K.backend()):
     import tensorflow as tf
