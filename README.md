@@ -6,7 +6,8 @@ This repository is about some implementations of CNN Architecture  for **cifar10
 ![cifar10][1]
 
 I just use **Keras** and **Tensorflow** to implementate all of these CNN models.  
-(maybe torch/pytorch version if I have time)
+~~(maybe torch/pytorch version if I have time)~~
+A pytorch version is available at [CIFAR-ZOO](https://github.com/BIGBALLON/CIFAR-ZOO)
 
 ## Requirements
 
