@@ -68,8 +68,7 @@ Modify the learning rate schedule may imporve the results of accuracy!
 | Vgg19-Network         | GTX1080TI | 39M     |   128      |  200  |    1 h 53 min |    93.53    |
 | Residual-Network20    | GTX1080TI | 0.27M   |   128      |  200  |    44 min     |    91.82    |
 | Residual-Network32    | GTX1080TI | 0.47M   |   128      |  200  |    1 h 7 min  |    92.68    |
-| Residual-Network50    | GTX1080TI | 1.7M    |   128      |  200  |    1 h 42 min |    93.18    |
-| Residual-Network110   | GTX1080TI | 0.27M   |   128      |  200  |    3 h 38 min |    93.93    |
+| Residual-Network110   | GTX1080TI | 1.7M    |   128      |  200  |    3 h 38 min |    93.93    |
 | Wide-resnet 16x8      | GTX1080TI | 11.3M   |   128      |  200  |   4 h 55 min  |    95.13    |
 | Wide-resnet 28x10     | GTX1080TI | 36.5M   |   128      |  200  |   10 h 22 min |    95.78    |
 | DenseNet-100x12       | GTX1080TI | 0.85M   |   64       |  250  |   17 h 20 min |    94.91    |
