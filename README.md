@@ -6,8 +6,8 @@ This repository is about some implementations of CNN Architecture  for **cifar10
 ![cifar10][1]
 
 I just use **Keras** and **Tensorflow** to implementate all of these CNN models.  
-~~(maybe torch/pytorch version if I have time)~~
-A pytorch version is available at [CIFAR-ZOO](https://github.com/BIGBALLON/CIFAR-ZOO)
+~~(maybe torch/pytorch version if I have time)~~  
+**A pytorch version is available at [CIFAR-ZOO](https://github.com/BIGBALLON/CIFAR-ZOO)**
 
 ## Requirements
 
@@ -129,6 +129,18 @@ Since I don't have enough machines to train the larger networks, I only trained 
 <a href="https://bigballon.github.io">&nbsp;<img src="https://user-images.githubusercontent.com/7837172/44953504-b9481000-aec8-11e8-9920-abf66365b8d8.gif"></a> <a href="https://bigballon.github.io">&nbsp;<img src="https://user-images.githubusercontent.com/7837172/44953504-b9481000-aec8-11e8-9920-abf66365b8d8.gif"></a>
 
 Please feel free to contact me if you have any questions! 
+
+
+## Citation
+
+```
+@misc{bigballon2017cifar10cnn,
+  author = {Wei Li},
+  title = {cifar-10-cnn: Play deep learning with CIFAR datasets},
+  howpublished = {\url{https://github.com/BIGBALLON/cifar-10-cnn}},
+  year = {2017}
+}
+```
 
 
   [1]: ./images/cf10.png
