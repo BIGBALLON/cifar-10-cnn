@@ -51,7 +51,7 @@ I just use **Keras** and **Tensorflow** to implementate all of these CNN models.
 
 There are also some documents and tutorials in [doc][12] & [issues/3][13].  
 Get it if you need.   
-You can aslo see the [articles][14] if you can speak Chinese. <img src="https://user-images.githubusercontent.com/7837172/44953504-b9481000-aec8-11e8-9920-abf66365b8d8.gif">
+You can also see the [articles][14] if you can speak Chinese. <img src="https://user-images.githubusercontent.com/7837172/44953504-b9481000-aec8-11e8-9920-abf66365b8d8.gif">
 
 
 
